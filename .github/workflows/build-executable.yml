@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -24,13 +24,13 @@ jobs:
 
       - name: Build Single-File Executable with PyInstaller
         run: |
-          pyinstaller --noconfirm --onefile --name "Quiz-Windows-x64" --icon="Assets/app-icon.ico" --add-data "Assets;Assets" --collect-all pygame main.py
+          pyinstaller --noconfirm --onefile --name "CRT-MultiApp-Windows" --icon="Assets/app-icon.ico" --add-data "Assets;Assets" --collect-all pygame main.py
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Quiz-Windows-x64
-          path: dist/Quiz-Windows-x64.exe
+          path: dist/CRT-MultiApp-Windows.exe
 
   build-macos-arm64:
     name: Build macOS 15 (Apple Silicon) Executable
@@ -40,7 +40,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -52,13 +52,13 @@ jobs:
 
       - name: Build Single-File Executable with PyInstaller
         run: |
-          pyinstaller --noconfirm --onefile --name "Quiz-macOS-ARM64" --icon="Assets/app-icon.ico" --add-data "Assets:Assets" --collect-all pygame main.py
+          pyinstaller --noconfirm --onefile --name "CRT-MultiApp-macOS" --icon="Assets/app-icon.icns" --add-data "Assets:Assets" --collect-all pygame main.py
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Quiz-macOS-ARM64
-          path: dist/Quiz-macOS-ARM64
+          path: dist/CRT-MultiApp-macOS
 
   build-linux-ubuntu:
     name: Build Linux Ubuntu Executable
@@ -68,7 +68,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -85,66 +85,10 @@ jobs:
 
       - name: Build Single-File Executable with PyInstaller
         run: |
-          pyinstaller --noconfirm --onefile --name "Quiz-Linux-Ubuntu" --icon="Assets/app-icon.ico" --add-data "Assets:Assets" --collect-all pygame main.py
+          pyinstaller --noconfirm --onefile --name "CRT-MultiApp-Ubuntu" --icon="Assets/app-icon.ico" --add-data "Assets:Assets" --collect-all pygame main.py
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Quiz-Linux-Ubuntu
-          path: dist/Quiz-Linux-Ubuntu
-
-  build-linux-arch:
-    name: Build Linux Arch Executable
-    runs-on: ubuntu-latest
-    container:
-      image: archlinux:latest
-
-    steps:
-      - name: Install system packages
-        run: |
-          pacman -Sy --noconfirm git gcc python tk sdl2 sdl2_mixer sdl2_image sdl2_ttf python-pillow python-pyinstaller python-pip
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install pygame-ce via pip in container
-        run: |
-          pip install pygame-ce --break-system-packages
-
-      - name: Build Single-File Executable with PyInstaller
-        run: |
-          pyinstaller --noconfirm --onefile --name "Quiz-Linux-Arch" --icon="Assets/app-icon.ico" --add-data "Assets:Assets" --collect-all pygame main.py
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Quiz-Linux-Arch
-          path: dist/Quiz-Linux-Arch
-
-  build-linux-redhat:
-    name: Build Linux RedHat / Fedora Executable
-    runs-on: ubuntu-latest
-    container:
-      image: fedora:latest
-
-    steps:
-      - name: Install system packages
-        run: |
-          dnf install -y git gcc python3 python3-devel python3-tkinter python3-pip SDL2-devel SDL2_mixer-devel SDL2_image-devel SDL2_ttf-devel python3-pillow python3-pyinstaller
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install pygame-ce via pip in container
-        run: |
-          pip install pygame-ce
-
-      - name: Build Single-File Executable with PyInstaller
-        run: |
-          pyinstaller --noconfirm --onefile --name "Quiz-Linux-RedHat" --icon="Assets/app-icon.ico" --add-data "Assets:Assets" --collect-all pygame main.py
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Quiz-Linux-RedHat
-          path: dist/Quiz-Linux-RedHat
+          path: dist/CRT-MultiApp-Ubuntu
