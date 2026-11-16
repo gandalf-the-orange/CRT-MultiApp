@@ -4,8 +4,6 @@ import webbrowser
 import random
 import time
 import os
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import pygame
 import stateVars
 
 # Early defs in main.py
@@ -129,8 +127,8 @@ def print_term(text):
 def clear_term():
     stateVars.termText.config(state="normal")
     stateVars.termText.delete("1.0", "end")
+    stateVars.termText.insert("end", "CRT OS v1.5\nType 'help' for commands. \n\n>")
     stateVars.termText.config(state="disabled")
-    print_term("")
 
 def load_playerlist():
     filepath = filedialog.askopenfilename(title="Select the playerlist.txt file!", filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
@@ -235,7 +233,6 @@ def force_quit_quiz():
     stateVars.quizQuitButton.place_forget()
     stateVars.titleLabel.place(x=(stateVars.rootWidth // 2), y=20, anchor="n")
     stateVars.crt_canvas.itemconfigure(stateVars.moving_scanline, state="normal")
-    pygame.mixer.music.set_volume(0.3)
     show_terminal_from_quiz()
     print_term("Quiz force quit by user \n")
 
@@ -337,7 +334,6 @@ def handle_quiz_setup_input(raw_cmd):
         begin_quiz_execution()
 
 def begin_quiz_execution():
-    pygame.mixer.music.set_volume(0.1)
     stateVars.quiz_active_players = [{
         "name": p,
         "skips": stateVars.quiz_settings['default_skips'],
@@ -649,7 +645,6 @@ def handle_winner_keypress(event):
     stateVars.quizQuestionLabel.config(bg=stateVars.background_colour, fg=stateVars.foreground_colour, font=descFont)
     stateVars.quizQuestionLabel.place_forget()
     stateVars.titleLabel.place(x=(stateVars.rootWidth // 2), y=20, anchor="n")
-    pygame.mixer.music.set_volume(0.3)
     stateVars.crt_canvas.itemconfigure("scanlines", state="normal")
     stateVars.crt_canvas.itemconfigure(stateVars.moving_scanline, state="normal")
     show_terminal_from_quiz()
@@ -668,7 +663,6 @@ def end_quiz(msg):
     stateVars.quizPauseButton.place_forget()
     stateVars.quizQuitButton.place_forget()
     stateVars.titleLabel.place(x=(stateVars.rootWidth // 2), y=20, anchor="n")
-    pygame.mixer.music.set_volume(0.3)
     stateVars.crt_canvas.itemconfigure("scanlines", state="normal")
     stateVars.crt_canvas.itemconfigure(stateVars.moving_scanline, state="normal")
     show_terminal_from_quiz()
@@ -711,8 +705,8 @@ def execute_command(e=None):
         "syntax": lambda: show_syntax(),
         "rickroll": lambda: (print_term("RICKROLL!\n"), webbrowser.open_new("https://www.youtube.com/watch?v=a7Lq6ZlSqys")),
         "luck": lambda: (print_term("Opening Lucky Gamble...\n"), testLuck()),
-        "clear": lambda: (clear_term(), stateVars.root.after(100, stateVars.termText.insert("end", "CRT OS v1.0\nType 'help' for commands. \n\n> "))),
-        "cls": lambda: (clear_term(), stateVars.root.after(100, stateVars.termText.insert("end", "CRT OS v1.0\nType 'help' for commands. \n\n> "))),
+        "clear": lambda: (clear_term()),
+        "cls": lambda: (clear_term()),
         "about": lambda: (print_term("Terra CRT App!\n"), openMePages()),
         "exit": stateVars.root.destroy
     }
